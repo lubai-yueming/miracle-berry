@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Spirit Island",
+        "min_players": 1,
+        "max_players": 4
+    },
+    {
+        "name": "Terraforming Mars",
+        "min_players": 1,
+        "max_players": 5
+    },
+    {
+        "name": "The Crew: Mission Deep Sea",
+        "min_players": 2,
+        "max_players": 5
+    },
+    {
+        "name": "Cryptid",
+        "min_players": 3,
+        "max_players": 5
+    },
+    {
+        "name": "Sky Team",
+        "min_players": 2,
+        "max_players": 2
+    }
+]
