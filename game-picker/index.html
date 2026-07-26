@@ -4,8 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Picker</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 480px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #222;
+        }
+        h1 {
+            text-align: center;
+        }
+        #player-form {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 24px 0;
+        }
+        #player-count {
+            width: 100px;
+            padding: 8px;
+            font-size: 1rem;
+        }
+        button {
+            padding: 8px 16px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        #result.error {
+            color: #b00020;
+        }
+        #result.success {
+            color: #1a7f37;
+        }
+        #picked-game {
+            font-size: 1.4rem;
+            margin: 12px 0 4px;
+        }
+        #reroll-btn {
+            margin-top: 8px;
+        }
+    </style>
 </head>
 <body>
     <h1>Pick Me!</h1>
+
+    <p style="text-align:center;">How many players do you have?</p>
+    <form id="player-form">
+        <input type="number" id="player-count" min="1" step="1" placeholder="e.g. 3" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script src="app.js"></script>
 </body>
 </html>
