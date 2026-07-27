@@ -1,0 +1,42 @@
+[
+    {
+        "id": "1",
+        "text": "Do you prefer playing on the same team as everyone else instead of competing against them?",
+        "scores": {
+            "yes": { "1": 1, "2": -1, "3": 1, "4": -1, "5": 1 },
+            "no":  { "1": -1, "2": 1, "3": -1, "4": 1, "5": -1 }
+        }
+    },
+    {
+        "id": "2",
+        "text": "Are you okay with little or no talking during the game, relying on hints or instinct instead?",
+        "scores": {
+            "yes": { "1": -1, "2": 0, "3": 1, "4": -1, "5": 2 },
+            "no":  { "1": 1, "2": 0, "3": -1, "4": 1, "5": -2 }
+        }
+    },
+    {
+        "id": "3",
+        "text": "Are you willing to play a single game that lasts more than an hour?",
+        "scores": {
+            "yes": { "1": 1, "2": 2, "3": -1, "4": 0, "5": -2 },
+            "no":  { "1": -1, "2": -2, "3": 1, "4": 0, "5": 2 }
+        }
+    },
+    {
+        "id": "4",
+        "text": "Do you enjoy learning lots of rules and deep strategy, even if it takes a while to master?",
+        "scores": {
+            "yes": { "1": 2, "2": 2, "3": -1, "4": 1, "5": -1 },
+            "no":  { "1": -2, "2": -2, "3": 1, "4": -1, "5": 1 }
+        }
+    },
+    {
+        "id": "5",
+        "text": "Would you rather play in a bigger group than one-on-one with just one other person?",
+        "scores": {
+            "yes": { "1": 1, "2": 1, "3": 1, "4": 1, "5": -2 },
+            "no":  { "1": -1, "2": -1, "3": -1, "4": -1, "5": 2 }
+        }
+    }
+]
