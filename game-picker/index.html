@@ -27,14 +27,14 @@
         section.hidden {
             display: none;
         }
-        #player-form {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-        }
         #player-count {
             width: 100px;
-            padding: 8px;
+            padding: 8px 16px;
+            font-size: 1rem;
+        }
+        #max-time {
+            width: 100px;
+            padding: 8px 16px;
             font-size: 1rem;
         }
         button {
@@ -111,13 +111,19 @@
     </style>
 </head>
 <body>
-    <h1>Pick Me!</h1>
-
     <section id="player-section">
-        <p style="text-align:center;">How many players do you have?</p>
         <form id="player-form">
-            <input type="number" id="player-count" min="1" step="1" placeholder="e.g. 3" required>
-            <button type="submit">Submit</button>
+            <div id="player-count-section">
+                <label for="player-count">How many players do you have?</label>
+                <input type="number" id="player-count" min="1" step="1" placeholder="e.g. 3" required>
+            </div>
+            <div id="max-time-section">
+                <label for="max-time">What is the maximum time you have?</label>
+                <input type="number" id="max-time" min="0" step="10" placeholder="e.g. 60" required>
+            </div>
+            <div id="submit-button">
+                <button type="submit">Submit</button>
+            </div>
         </form>
         <div id="player-status" class="status"></div>
     </section>
