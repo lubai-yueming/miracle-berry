@@ -1,6 +1,7 @@
 const playerSection = document.getElementById('player-section');
 const playerForm = document.getElementById('player-form');
 const playerCountInput = document.getElementById('player-count');
+const maxTimeInput = document.getElementById('max-time');
 const playerStatusEl = document.getElementById('player-status');
 
 const quizSection = document.getElementById('quiz-section');
@@ -17,6 +18,7 @@ const startOverBtn = document.getElementById('start-over-btn');
 let games = [];
 let quiz = [];
 let numPlayers = 0;
+let maxTime = 0;
 let currentMatches = [];
 let lastTopMatches = [];
 
@@ -60,17 +62,24 @@ function scoreGames(yesCounts, totalPlayers) {
         }
         const clampedYes = Math.min(Math.max(yesCount, 0), totalPlayers);
         const noCount = totalPlayers - clampedYes;
-        const yesScores = question.scores.yes || {};
-        const noScores = question.scores.no || {};
-
-        Object.keys(totals).forEach((gameId) => {
-            const yesPoints = yesScores[gameId] || 0;
-            const noPoints = noScores[gameId] || 0;
-            totals[gameId] += (clampedYes * yesPoints) + (noCount * noPoints);
+        Object.keys(question.scores).forEach((condition) => {
+            const parts = condition.split(":")
+            if (parts.length !== 2) {
+                return;
+            }
+            const values = question.scores[condition]
+            games.forEach((game) => {
+                if ((parts[0] === "genres" && game.genres.includes(parts[1])) || (parts[0] === "complexity" && game.complexity === parts[1])) {
+                    yesPoints = values.yes || 0;
+                    noPoints = values.no || 0;
+                    totals[game.id] += (clampedYes * yesPoints) + (noCount * noPoints);
+                }
+            });
         });
     });
 
     return games
+        .filter((game) => (totals[game.id] >= 0))
         .map((game) => ({ id: game.id, name: game.name, score: totals[game.id] }))
         .sort((a, b) => b.score - a.score);
 }
@@ -117,13 +126,15 @@ function renderQuiz() {
 function handlePlayerSubmit(event) {
     event.preventDefault();
 
+    currentMatches = games;
+
     const parsedCount = parseInt(playerCountInput.value, 10);
     if (isNaN(parsedCount) || parsedCount < 1) {
         setStatus(playerStatusEl, 'Please enter a valid number of players.', 'error');
         return;
     }
 
-    currentMatches = games.filter(
+    currentMatches = currentMatches.filter(
         (game) => parsedCount >= game.min_players && parsedCount <= game.max_players
     );
 
@@ -139,6 +150,28 @@ function handlePlayerSubmit(event) {
     }
 
     numPlayers = parsedCount;
+    
+    const parsedMaxTime = parseInt(maxTimeInput.value, 10);
+    if (isNaN(parsedMaxTime) || parsedMaxTime < 0) {
+        setStatus(playerStatusEl, 'Please enter a valid max time to play.', 'error');
+        return;
+    }
+
+    currentMatches = currentMatches.filter(
+        (game) => parsedMaxTime >= game.min_avg_length_minutes
+    );
+
+    if (currentMatches.length === 0) {
+        setStatus(
+            playerStatusEl,
+            `No game supports ${parsedCount} player(s) and ${parsedMaxTime} min average play time. Please enter again.`,
+            'error'
+        );
+        return;
+    }
+
+    maxTime = parsedMaxTime;
+    
     setStatus(playerStatusEl, '', '');
     renderQuiz();
 }
@@ -204,6 +237,7 @@ function resetToPlayerStep() {
     setStatus(playerStatusEl, '', '');
     setStatus(quizStatusEl, '', '');
     numPlayers = 0;
+    maxTime = 0;
     currentMatches = [];
     lastTopMatches = [];
     showSection(playerSection);
