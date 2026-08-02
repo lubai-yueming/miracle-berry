@@ -1,18 +1,25 @@
 [
     {
         "id": "1",
-        "text": "Do you want to play on the same team or compete against each other?",
+        "text": "Do you want to play on the same team rather than compete against each other?",
         "scores": {
             "genres:cooperative": {"yes": 2, "no": -2}
         }
     },
     {
         "id": "2",
-        "text": "Do you enjoy learning lots of rules and deep strategy, even if it takes a while to master?",
+        "text": "Would you enjoy complex rules, even if they takes a while to master?",
         "scores": {
             "complexity:high": {"yes": 2, "no": -2},
             "complexity:medium": {"yes": 1, "no": -1},
             "complexity:low": {"yes": -1, "no": 2}
+        }
+    },
+    {
+        "id": "3",
+        "text": "Would you like to strategize a lot when playing?",
+        "scores": {
+            "genres:strategy": {"yes": 1, "no": -1}
         }
     }
 ]

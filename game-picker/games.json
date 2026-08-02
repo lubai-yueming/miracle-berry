@@ -23,8 +23,8 @@
         "min_players": 2,
         "max_players": 5,
         "min_avg_length_minutes": 15,
-        "complexity": "low",
-        "genres": ["trick-taking", "cooperative", "card"]
+        "complexity": "medium",
+        "genres": ["strategy", "cooperative", "card"]
     },
     {
         "id": "4",
