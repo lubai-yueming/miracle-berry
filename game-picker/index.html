@@ -27,20 +27,61 @@
         section.hidden {
             display: none;
         }
-        #player-count {
-            width: 100px;
-            padding: 8px 16px;
-            font-size: 1rem;
-        }
-        #max-time {
-            width: 100px;
-            padding: 8px 16px;
-            font-size: 1rem;
-        }
         button {
             padding: 8px 16px;
             font-size: 1rem;
             cursor: pointer;
+        }
+        #player-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .intro-card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+        .intro-card:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-color: #d5d5d5;
+        }
+        .intro-card label {
+            display: block;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #222;
+        }
+        .intro-card input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 14px;
+            font-size: 1.1rem;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .intro-card input:focus {
+            outline: none;
+            border-color: #1a7f37;
+            box-shadow: 0 0 0 3px rgba(26, 127, 55, 0.15);
+        }
+        #submit-button button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #fff;
+            background: #1a7f37;
+            border: none;
+            border-radius: 8px;
+        }
+        #submit-button button:hover {
+            background: #146029;
         }
         .status {
             margin-top: 16px;
@@ -54,25 +95,66 @@
         .status.success {
             color: #1a7f37;
         }
-        .quiz-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        .quiz-row label {
-            flex: 1;
-        }
-        .quiz-row input {
-            width: 64px;
-            padding: 6px;
-            font-size: 1rem;
-        }
         #quiz-form {
             display: flex;
             flex-direction: column;
+        }
+        #quiz-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .quiz-card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 16px 18px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+        .quiz-card:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-color: #d5d5d5;
+        }
+        .quiz-card-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #fff;
+            background: #1a7f37;
+            border-radius: 999px;
+            padding: 3px 10px;
+            margin-bottom: 10px;
+            letter-spacing: 0.03em;
+        }
+        .quiz-card-text {
+            margin: 0 0 14px;
+            font-size: 1.02rem;
+            line-height: 1.45;
+            color: #222;
+        }
+        .quiz-card-answer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .quiz-card-answer input {
+            width: 64px;
+            padding: 8px;
+            font-size: 1.05rem;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .quiz-card-answer input:focus {
+            outline: none;
+            border-color: #1a7f37;
+            box-shadow: 0 0 0 3px rgba(26, 127, 55, 0.15);
+        }
+        .quiz-card-answer .quiz-answer-label {
+            color: #666;
+            font-size: 0.88rem;
         }
         #quiz-actions {
             display: flex;
@@ -113,11 +195,11 @@
 <body>
     <section id="player-section">
         <form id="player-form">
-            <div id="player-count-section">
+            <div id="player-count-section" class="intro-card">
                 <label for="player-count">How many players do you have?</label>
                 <input type="number" id="player-count" min="1" step="1" placeholder="e.g. 3" required>
             </div>
-            <div id="max-time-section">
+            <div id="max-time-section" class="intro-card">
                 <label for="max-time">What is the maximum time you have?</label>
                 <input type="number" id="max-time" min="0" step="10" placeholder="e.g. 60" required>
             </div>
