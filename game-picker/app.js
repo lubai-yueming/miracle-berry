@@ -63,15 +63,15 @@ function scoreGames(yesCounts, totalPlayers) {
         const clampedYes = Math.min(Math.max(yesCount, 0), totalPlayers);
         const noCount = totalPlayers - clampedYes;
         Object.keys(question.scores).forEach((condition) => {
-            const parts = condition.split(":")
+            const parts = condition.split(":");
             if (parts.length !== 2) {
                 return;
             }
-            const values = question.scores[condition]
+            const values = question.scores[condition];
             games.forEach((game) => {
                 if ((parts[0] === "genres" && game.genres.includes(parts[1])) || (parts[0] === "complexity" && game.complexity === parts[1])) {
-                    yesPoints = values.yes || 0;
-                    noPoints = values.no || 0;
+                    const yesPoints = values.yes || 0;
+                    const noPoints = values.no || 0;
                     totals[game.id] += (clampedYes * yesPoints) + (noCount * noPoints);
                 }
             });
@@ -113,10 +113,15 @@ function showSection(section) {
 
 function renderQuiz() {
     quizHeadingEl.textContent = `For each question, how many of your ${numPlayers} player(s) answered "yes"?`;
-    quizQuestionsEl.innerHTML = quiz.map((question) => `
-        <div class="quiz-row">
-            <label for="q-${question.id}">${question.text}</label>
-            <input type="number" id="q-${question.id}" data-question-id="${question.id}" min="0" max="${numPlayers}" step="1" value="0">
+    quizQuestionsEl.innerHTML = quiz.map((question, index) => `
+        <div class="quiz-card">
+            <span class="quiz-card-badge">Question ${index + 1} of ${quiz.length}</span>
+            <p class="quiz-card-text">${question.text}</p>
+            <div class="quiz-card-answer">
+                <label for="q-${question.id}" class="quiz-answer-label">said yes:</label>
+                <input type="number" id="q-${question.id}" data-question-id="${question.id}" min="0" max="${numPlayers}" step="1" value="0">
+                <span class="quiz-answer-label">/ ${numPlayers}</span>
+            </div>
         </div>
     `).join('');
     setStatus(quizStatusEl, '', '');
