@@ -88,5 +88,32 @@
         "min_avg_length_minutes": 120,
         "complexity": "high",
         "genres": ["cooperative", "adventure", "dice"]
+    },
+    {
+        "id": "11",
+        "name": "Magical Athlete",
+        "min_players": 2,
+        "max_players": 6,
+        "min_avg_length_minutes": 20,
+        "complexity": "low",
+        "genres": ["family", "dice", "racing", "party"]
+    },
+    {
+        "id": "12",
+        "name": "Coup",
+        "min_players": 2,
+        "max_players": 6,
+        "min_avg_length_minutes": 15,
+        "complexity": "low",
+        "genres": ["bluffing", "deduction", "party"]
+    },
+    {
+        "id": "13",
+        "name": "Codenames",
+        "min_players": 2,
+        "max_players": 8,
+        "min_avg_length_minutes": 15,
+        "complexity": "low",
+        "genres": ["word", "deduction", "party"]
     }
 ]

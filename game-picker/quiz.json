@@ -21,5 +21,28 @@
         "scores": {
             "genres:strategy": {"yes": 1, "no": -1}
         }
+    },
+    {
+        "id": "4",
+        "text": "Have you ever bluffed your way through a conversation about something you actually knew nothing about?",
+        "scores": {
+            "genres:bluffing": { "yes": 1, "no": -1 },
+            "genres:party": { "yes": 1, "no": -1 }
+        }
+    },
+    {
+        "id": "5",
+        "text": "Do you have a lucky item or a little ritual you do before something important?",
+        "scores": {
+            "genres:dice": { "yes": 2, "no": -1 }
+        }
+    },
+    {
+        "id": "6",
+        "text": "Have you ever changed your mind at the very last second on a big decision?",
+        "scores": {
+            "genres:dice": { "yes": 1, "no": -1 },
+            "genres:adventure": { "yes": 1, "no": -1 }
+        }
     }
 ]
