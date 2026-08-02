@@ -43,5 +43,50 @@
         "min_avg_length_minutes": 30,
         "complexity": "medium",
         "genres": ["strategy", "cooperative", "dice"]
+    },
+    {
+        "id": "6",
+        "name": "Frustration Rummy",
+        "min_players": 2,
+        "max_players": 5,
+        "min_avg_length_minutes": 30,
+        "complexity": "medium",
+        "genres": ["card", "family"]
+    },
+    {
+        "id": "7",
+        "name": "Love Letter",
+        "min_players": 2,
+        "max_players": 6,
+        "min_avg_length_minutes": 15,
+        "complexity": "low",
+        "genres": ["deduction", "party", "card"]
+    },
+    {
+        "id": "8",
+        "name": "Pandemic",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 45,
+        "complexity": "medium",
+        "genres": ["cooperative", "strategy"]
+    },
+    {
+        "id": "9",
+        "name": "7 Wonders",
+        "min_players": 3,
+        "max_players": 7,
+        "min_avg_length_minutes": 30,
+        "complexity": "medium",
+        "genres": ["card", "civilization", "strategy"]
+    },
+    {
+        "id": "10",
+        "name": "Arkham Horror",
+        "min_players": 1,
+        "max_players": 8,
+        "min_avg_length_minutes": 120,
+        "complexity": "high",
+        "genres": ["cooperative", "adventure", "dice"]
     }
 ]
