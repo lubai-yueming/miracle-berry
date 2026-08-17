@@ -1,0 +1,12 @@
+[
+    { "id": 1, "text": "I feel energized and enthusiastic when I'm around other people, especially in lively group settings.", "trait": "extraversion", "reverse": false },
+    { "id": 2, "text": "I tend to find fault with others and often end up arguing rather than letting things go.", "trait": "agreeableness", "reverse": true },
+    { "id": 3, "text": "I follow through on my commitments and stay organized and self-disciplined about getting things done.", "trait": "conscientiousness", "reverse": false },
+    { "id": 4, "text": "I get anxious or upset pretty easily, even over small things that don't go as planned.", "trait": "neuroticism", "reverse": false },
+    { "id": 5, "text": "I actively seek out new experiences and enjoy exploring complex or unconventional ideas.", "trait": "openness", "reverse": false },
+    { "id": 6, "text": "I tend to stay quiet and hold back in social situations rather than jumping into the conversation.", "trait": "extraversion", "reverse": true },
+    { "id": 7, "text": "I go out of my way to be warm and supportive, and I genuinely care about other people's feelings.", "trait": "agreeableness", "reverse": false },
+    { "id": 8, "text": "I often lose track of things and tend to be careless or disorganized about details.", "trait": "conscientiousness", "reverse": true },
+    { "id": 9, "text": "I stay calm and emotionally steady even when things get stressful or chaotic.", "trait": "neuroticism", "reverse": true },
+    { "id": 10, "text": "I prefer sticking to familiar, conventional ways of doing things rather than trying something creative or unusual.", "trait": "openness", "reverse": true }
+]
