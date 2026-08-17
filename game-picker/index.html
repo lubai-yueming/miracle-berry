@@ -133,28 +133,42 @@
             line-height: 1.45;
             color: #222;
         }
-        .quiz-card-answer {
+        .quiz-subheading {
+            font-size: 0.85rem;
+            font-weight: normal;
+            color: #777;
+        }
+        .tipi-slider-row {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
             gap: 10px;
         }
-        .quiz-card-answer input {
-            width: 64px;
-            padding: 8px;
-            font-size: 1.05rem;
+        .tipi-slider-endlabel {
+            width: 60px;
+            font-size: 0.72rem;
+            line-height: 1.2;
+            color: #777;
             text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 8px;
         }
-        .quiz-card-answer input:focus {
-            outline: none;
-            border-color: #1a7f37;
-            box-shadow: 0 0 0 3px rgba(26, 127, 55, 0.15);
+        .tipi-slider {
+            flex: 1;
+            accent-color: #1a7f37;
         }
-        .quiz-card-answer .quiz-answer-label {
-            color: #666;
+        .tipi-slider.unanswered {
+            accent-color: #bbb;
+            opacity: 0.6;
+        }
+        .tipi-slider-value {
+            margin-top: 8px;
+            text-align: center;
             font-size: 0.88rem;
+            font-weight: 600;
+            color: #1a7f37;
+        }
+        .tipi-slider-value.unanswered {
+            font-weight: normal;
+            font-style: italic;
+            color: #999;
         }
         #quiz-actions {
             display: flex;
@@ -172,23 +186,168 @@
             margin: 16px 0;
         }
         ul#matches-list li {
-            padding: 10px 12px;
+            padding: 12px 14px;
             border: 1px solid #e5e5e5;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: block;
         }
         ul#matches-list li.top-pick {
             border-color: #1a7f37;
             background: #f1f8f3;
+        }
+        ul#matches-list.close-matches li {
+            border-color: #f0d58a;
+            background: #fffaf0;
+        }
+        .game-card-header {
+            display: flex;
+            justify-content: space-between;
             font-weight: bold;
+            font-size: 1.02rem;
+            margin-bottom: 8px;
+        }
+        .close-match-row {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+        .close-match-reason {
+            margin: 6px 0 0;
+            font-size: 0.88rem;
+            font-weight: normal;
+            color: #6b5a2a;
+        }
+        .game-card-description {
+            margin: 0 0 8px;
+            font-size: 0.9rem;
+            font-weight: normal;
+            color: #333;
+            line-height: 1.4;
+        }
+        .game-card-meta {
+            margin: 0 0 6px;
+            font-size: 0.84rem;
+            font-weight: normal;
+            color: #555;
+            line-height: 1.4;
+        }
+        .game-card-meta strong {
+            color: #222;
+        }
+        .game-card-reason {
+            margin: 8px 0 0;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
+            font-size: 0.84rem;
+            font-weight: normal;
+            color: #1a5c30;
+            line-height: 1.4;
+        }
+        .game-card-reason strong {
+            color: #146029;
+        }
+        .group-profile {
+            background: #f4f6fb;
+            border: 1px solid #dde3f0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 0 0 16px;
+            font-size: 0.92rem;
+            font-style: italic;
+            color: #3a4258;
+            text-align: center;
+        }
+        .no-match-reason {
+            font-size: 0.9rem;
+            color: #555;
+            text-align: center;
+            margin: 4px 0 16px;
+        }
+        .trait-breakdown {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin: 0 0 16px;
+        }
+        .trait-breakdown summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #1a7f37;
+            font-size: 0.95rem;
+        }
+        .trait-breakdown-body {
+            margin-top: 12px;
+        }
+        .trait-row {
+            margin-bottom: 14px;
+        }
+        .trait-row-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            margin-bottom: 5px;
+        }
+        .trait-name {
+            font-weight: 600;
+            color: #222;
+        }
+        .trait-level {
+            color: #555;
+        }
+        .trait-bar-track {
+            position: relative;
+            height: 6px;
+            background: #e5e5e5;
+            border-radius: 3px;
+        }
+        .trait-bar-marker {
+            position: absolute;
+            top: -4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #1a7f37;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 2px #fff;
+        }
+        .trait-split-note {
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 0.76rem;
+            font-style: italic;
+            color: #b06a00;
+        }
+        .player-breakdown-heading {
+            margin: 16px 0 8px;
+            font-size: 0.88rem;
+            color: #222;
+        }
+        .player-breakdown-list {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 0.86rem;
+            color: #444;
+            line-height: 1.6;
         }
         #results-actions {
             display: flex;
             justify-content: center;
             gap: 8px;
             margin-top: 8px;
+        }
+        footer#bgg-attribution {
+            margin: 32px 0 12px;
+            text-align: center;
+        }
+        footer#bgg-attribution a {
+            display: inline-block;
+        }
+        footer#bgg-attribution img {
+            height: 28px;
+            width: auto;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -216,7 +375,7 @@
             <div id="quiz-questions"></div>
             <div id="quiz-actions">
                 <button type="button" id="quiz-back-btn">Back</button>
-                <button type="submit">See My Matches</button>
+                <button type="submit" id="quiz-submit-btn">See Our Matches</button>
             </div>
         </form>
         <div id="quiz-status" class="status"></div>
@@ -228,6 +387,12 @@
             <button type="button" id="start-over-btn">Start Over</button>
         </div>
     </section>
+
+    <footer id="bgg-attribution">
+        <a href="https://boardgamegeek.com" target="_blank" rel="noopener noreferrer" title="Game data powered by BoardGameGeek">
+            <img src="assets/powered-by-bgg.png" alt="Powered by BGG">
+        </a>
+    </footer>
 
     <script src="app.js"></script>
 </body>

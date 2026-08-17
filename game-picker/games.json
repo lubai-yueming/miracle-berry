@@ -5,8 +5,20 @@
         "min_players": 1,
         "max_players": 4,
         "min_avg_length_minutes": 90,
-        "complexity": "high",
-        "genres": ["strategy", "cooperative", "card"]
+        "weight": 4,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "cooperative",
+            "card"
+        ],
+        "description": "Players control powerful spirits defending their island home from invading colonists, using card-based powers to slow, weaken, and ultimately destroy the invaders through cooperative play.",
+        "bgg_id": 162886,
+        "bgg_rank": 11,
+        "bgg_rating": 8.14119
     },
     {
         "id": "2",
@@ -14,8 +26,20 @@
         "min_players": 1,
         "max_players": 5,
         "min_avg_length_minutes": 90,
-        "complexity": "high",
-        "genres": ["strategy", "economy-building", "card"]
+        "weight": 3.2,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "card"
+        ],
+        "description": "Players lead corporations racing to terraform Mars by raising its temperature, oxygen, and ocean coverage while building up their own infrastructure.",
+        "bgg_id": 167791,
+        "bgg_rank": 9,
+        "bgg_rating": 8.1808
     },
     {
         "id": "3",
@@ -23,8 +47,20 @@
         "min_players": 2,
         "max_players": 5,
         "min_avg_length_minutes": 15,
-        "complexity": "medium",
-        "genres": ["strategy", "cooperative", "card"]
+        "weight": 1.9,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "cooperative",
+            "card"
+        ],
+        "description": "A cooperative trick-taking game where players work together, without talking about their cards, to complete secret missions while exploring the ocean depths.",
+        "bgg_id": 324856,
+        "bgg_rank": 44,
+        "bgg_rating": 7.80279
     },
     {
         "id": "4",
@@ -32,17 +68,40 @@
         "min_players": 3,
         "max_players": 5,
         "min_avg_length_minutes": 30,
-        "complexity": "medium",
-        "genres": ["deduction", "strategy", "puzzle"]
+        "weight": 2.1,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "deduction",
+            "strategy",
+            "puzzle"
+        ],
+        "description": "A deduction game where players use clues about terrain and creature sightings to be the first to logically pinpoint the exact location of a hidden cryptid.",
+        "bgg_id": 246784,
+        "bgg_rank": 342,
+        "bgg_rating": 7.16075
     },
-    {   
+    {
         "id": "5",
         "name": "Sky Team",
         "min_players": 2,
         "max_players": 2,
         "min_avg_length_minutes": 30,
-        "complexity": "medium",
-        "genres": ["strategy", "cooperative", "dice"]
+        "weight": 1.8,
+        "ideal_players": [
+            2
+        ],
+        "genres": [
+            "strategy",
+            "cooperative",
+            "dice"
+        ],
+        "description": "A cooperative two-player game where a pilot and co-pilot secretly place dice together to safely land an airplane at the airport.",
+        "bgg_id": 373106,
+        "bgg_rank": 32,
+        "bgg_rating": 7.88968
     },
     {
         "id": "6",
@@ -50,8 +109,16 @@
         "min_players": 2,
         "max_players": 5,
         "min_avg_length_minutes": 30,
-        "complexity": "medium",
-        "genres": ["card", "family"]
+        "weight": 1.5,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "card",
+            "family"
+        ],
+        "description": "A social rummy-style card game with wild \"frustration\" cards that can suddenly swap fortunes between players."
     },
     {
         "id": "7",
@@ -59,8 +126,19 @@
         "min_players": 2,
         "max_players": 6,
         "min_avg_length_minutes": 15,
-        "complexity": "low",
-        "genres": ["deduction", "party", "card"]
+        "weight": 1.2,
+        "ideal_players": [
+            4
+        ],
+        "genres": [
+            "deduction",
+            "party",
+            "card"
+        ],
+        "description": "A quick deduction and bluffing game where players try to get their love letter to the princess while eliminating rivals using just 16 cards.",
+        "bgg_id": 129622,
+        "bgg_rank": 370,
+        "bgg_rating": 7.12213
     },
     {
         "id": "8",
@@ -68,8 +146,19 @@
         "min_players": 2,
         "max_players": 4,
         "min_avg_length_minutes": 45,
-        "complexity": "medium",
-        "genres": ["cooperative", "strategy"]
+        "weight": 2.4,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "cooperative",
+            "strategy"
+        ],
+        "description": "A cooperative game where players work as a team of specialists racing around the globe to treat infections and find cures before four diseases overwhelm the world.",
+        "bgg_id": 30549,
+        "bgg_rank": 174,
+        "bgg_rating": 7.40161
     },
     {
         "id": "9",
@@ -77,8 +166,20 @@
         "min_players": 3,
         "max_players": 7,
         "min_avg_length_minutes": 30,
-        "complexity": "medium",
-        "genres": ["card", "civilization", "strategy"]
+        "weight": 2.3,
+        "ideal_players": [
+            4,
+            5
+        ],
+        "genres": [
+            "card",
+            "civilization",
+            "strategy"
+        ],
+        "description": "Players draft cards over three ages to build up an ancient civilization's wonders, military, science, and economy.",
+        "bgg_id": 68448,
+        "bgg_rank": 118,
+        "bgg_rating": 7.54609
     },
     {
         "id": "10",
@@ -86,8 +187,20 @@
         "min_players": 1,
         "max_players": 8,
         "min_avg_length_minutes": 120,
-        "complexity": "high",
-        "genres": ["cooperative", "adventure", "dice"]
+        "weight": 3.3,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "cooperative",
+            "adventure",
+            "dice"
+        ],
+        "description": "A cooperative horror game where investigators explore a Lovecraftian town, gathering clues and battling monsters to stop an Ancient One from awakening.",
+        "bgg_id": 257499,
+        "bgg_rank": 355,
+        "bgg_rating": 7.1427
     },
     {
         "id": "11",
@@ -95,8 +208,21 @@
         "min_players": 2,
         "max_players": 6,
         "min_avg_length_minutes": 20,
-        "complexity": "low",
-        "genres": ["family", "dice", "racing", "party"]
+        "weight": 1.3,
+        "ideal_players": [
+            4,
+            5
+        ],
+        "genres": [
+            "family",
+            "dice",
+            "racing",
+            "party"
+        ],
+        "description": "A chaotic racing game where players control quirky fantasy racers with unique abilities, betting and racing toward the finish line.",
+        "bgg_id": 454103,
+        "bgg_rank": 340,
+        "bgg_rating": 7.16305
     },
     {
         "id": "12",
@@ -104,8 +230,20 @@
         "min_players": 2,
         "max_players": 6,
         "min_avg_length_minutes": 15,
-        "complexity": "low",
-        "genres": ["bluffing", "deduction", "party"]
+        "weight": 1.4,
+        "ideal_players": [
+            5,
+            6
+        ],
+        "genres": [
+            "bluffing",
+            "deduction",
+            "party"
+        ],
+        "description": "A bluffing card game where players claim character powers they may not actually have, trying to eliminate opponents' influence and be the last one standing.",
+        "bgg_id": 131357,
+        "bgg_rank": 722,
+        "bgg_rating": 6.83164
     },
     {
         "id": "13",
@@ -113,7 +251,1016 @@
         "min_players": 2,
         "max_players": 8,
         "min_avg_length_minutes": 15,
-        "complexity": "low",
-        "genres": ["word", "deduction", "party"]
+        "weight": 1.3,
+        "ideal_players": [
+            6,
+            8
+        ],
+        "genres": [
+            "word",
+            "deduction",
+            "party"
+        ],
+        "description": "Two teams compete to identify their agents on the board using one-word clues given by their spymaster, while avoiding the assassin.",
+        "bgg_id": 178900,
+        "bgg_rank": 163,
+        "bgg_rating": 7.42712
+    },
+    {
+        "id": "14",
+        "name": "Catan",
+        "min_players": 3,
+        "max_players": 4,
+        "min_avg_length_minutes": 60,
+        "weight": 2.3,
+        "ideal_players": [
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "dice"
+        ],
+        "description": "Players collect and trade resources to build settlements, roads, and cities, racing to be the first to earn ten victory points on the island of Catan.",
+        "bgg_id": 13,
+        "bgg_rank": 627,
+        "bgg_rating": 6.90202
+    },
+    {
+        "id": "15",
+        "name": "Ticket to Ride",
+        "min_players": 2,
+        "max_players": 5,
+        "min_avg_length_minutes": 30,
+        "weight": 1.8,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "family"
+        ],
+        "description": "Players collect matching train cards to claim railway routes across a map, racing to connect cities and complete secret destination tickets.",
+        "bgg_id": 9209,
+        "bgg_rank": 262,
+        "bgg_rating": 7.25973
+    },
+    {
+        "id": "16",
+        "name": "Carcassonne",
+        "min_players": 2,
+        "max_players": 5,
+        "min_avg_length_minutes": 35,
+        "weight": 1.9,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "puzzle",
+            "family"
+        ],
+        "description": "Players draw and place tiles to build the medieval landscape of Carcassonne, placing meeples to claim cities, roads, and fields for points.",
+        "bgg_id": 822,
+        "bgg_rank": 240,
+        "bgg_rating": 7.29902
+    },
+    {
+        "id": "17",
+        "name": "Splendor",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 30,
+        "weight": 1.8,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players collect gem tokens to purchase development cards that generate resources, racing to build a prestigious jewelry empire.",
+        "bgg_id": 148228,
+        "bgg_rank": 243,
+        "bgg_rating": 7.29253
+    },
+    {
+        "id": "18",
+        "name": "Azul",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 30,
+        "weight": 1.8,
+        "ideal_players": [
+            2
+        ],
+        "genres": [
+            "puzzle",
+            "strategy"
+        ],
+        "description": "Players draft colorful tiles to decorate the walls of a royal palace, scoring points for clever patterns while avoiding wasted tiles.",
+        "bgg_id": 230802,
+        "bgg_rank": 99,
+        "bgg_rating": 7.60336
+    },
+    {
+        "id": "19",
+        "name": "Wingspan",
+        "min_players": 1,
+        "max_players": 5,
+        "min_avg_length_minutes": 40,
+        "weight": 2.4,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "card"
+        ],
+        "description": "Players build competing bird sanctuaries by playing birds into habitats, chaining engine-building combos to attract more birds.",
+        "bgg_id": 266192,
+        "bgg_rank": 38,
+        "bgg_rating": 7.84225
+    },
+    {
+        "id": "20",
+        "name": "Root",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 60,
+        "weight": 3.7,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "adventure",
+            "civilization"
+        ],
+        "description": "An asymmetric woodland wargame where different animal factions with wildly different playstyles battle for control of the forest.",
+        "bgg_id": 237182,
+        "bgg_rank": 34,
+        "bgg_rating": 7.88133
+    },
+    {
+        "id": "21",
+        "name": "Dominion",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 30,
+        "weight": 2.4,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "card"
+        ],
+        "description": "The original deck-building game, where players buy cards to build an efficient personal deck and score the most victory points.",
+        "bgg_id": 36218,
+        "bgg_rank": 146,
+        "bgg_rating": 7.47357
+    },
+    {
+        "id": "22",
+        "name": "Bang!",
+        "min_players": 4,
+        "max_players": 7,
+        "min_avg_length_minutes": 20,
+        "weight": 1.6,
+        "ideal_players": [
+            6,
+            7
+        ],
+        "genres": [
+            "bluffing",
+            "deduction",
+            "party",
+            "card"
+        ],
+        "description": "A Wild West bluffing game where players secretly take on roles as Sheriff, Deputies, Outlaws, or Renegades and duel to survive."
+    },
+    {
+        "id": "23",
+        "name": "Skull",
+        "min_players": 3,
+        "max_players": 6,
+        "min_avg_length_minutes": 15,
+        "weight": 1.2,
+        "ideal_players": [
+            4,
+            5
+        ],
+        "genres": [
+            "bluffing",
+            "party"
+        ],
+        "description": "A bluffing and betting game where players place coasters face-down and bet on how many they can flip over without hitting a skull.",
+        "bgg_id": 92415,
+        "bgg_rank": 498,
+        "bgg_rating": 7.00913
+    },
+    {
+        "id": "24",
+        "name": "Sushi Go!",
+        "min_players": 2,
+        "max_players": 5,
+        "min_avg_length_minutes": 15,
+        "weight": 1.2,
+        "ideal_players": [
+            4
+        ],
+        "genres": [
+            "card",
+            "family"
+        ],
+        "description": "A fast card-drafting game where players pass around hands of sushi cards, building the best combination of dishes for points.",
+        "bgg_id": 133473,
+        "bgg_rank": 665,
+        "bgg_rating": 6.86699
+    },
+    {
+        "id": "25",
+        "name": "Kingdomino",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 15,
+        "weight": 1.2,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "family",
+            "puzzle"
+        ],
+        "description": "Players draft domino tiles to build their own kingdom, matching landscapes to maximize their territory's value.",
+        "bgg_id": 204583,
+        "bgg_rank": 331,
+        "bgg_rating": 7.1687
+    },
+    {
+        "id": "26",
+        "name": "Hanabi",
+        "min_players": 2,
+        "max_players": 5,
+        "min_avg_length_minutes": 25,
+        "weight": 1.8,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "cooperative",
+            "deduction",
+            "card"
+        ],
+        "description": "A cooperative card game where players can see everyone's hand but their own, giving limited hints to build a beautiful firework show together.",
+        "bgg_id": 98778,
+        "bgg_rank": 607,
+        "bgg_rating": 6.91978
+    },
+    {
+        "id": "27",
+        "name": "Just One",
+        "min_players": 3,
+        "max_players": 7,
+        "min_avg_length_minutes": 20,
+        "weight": 1.1,
+        "ideal_players": [
+            5,
+            6
+        ],
+        "genres": [
+            "party",
+            "cooperative",
+            "word"
+        ],
+        "description": "A cooperative party game where players write one-word clues to help a guesser identify a secret word, but duplicate clues get removed.",
+        "bgg_id": 254640,
+        "bgg_rank": 159,
+        "bgg_rating": 7.43613
+    },
+    {
+        "id": "28",
+        "name": "Wavelength",
+        "min_players": 2,
+        "max_players": 12,
+        "min_avg_length_minutes": 30,
+        "weight": 1.2,
+        "ideal_players": [
+            6,
+            8
+        ],
+        "genres": [
+            "party",
+            "deduction"
+        ],
+        "description": "Teams try to read each other's minds by guessing where a hidden target falls on a spectrum between two extremes.",
+        "bgg_id": 262543,
+        "bgg_rank": 536,
+        "bgg_rating": 6.97376
+    },
+    {
+        "id": "29",
+        "name": "Dixit",
+        "min_players": 3,
+        "max_players": 6,
+        "min_avg_length_minutes": 30,
+        "weight": 1.2,
+        "ideal_players": [
+            4,
+            6
+        ],
+        "genres": [
+            "party",
+            "deduction",
+            "card"
+        ],
+        "description": "Players match picture cards to a storyteller's abstract clue, trying to be guessed by some players but not all of them.",
+        "bgg_id": 39856,
+        "bgg_rank": 435,
+        "bgg_rating": 7.06323
+    },
+    {
+        "id": "30",
+        "name": "Scythe",
+        "min_players": 1,
+        "max_players": 5,
+        "min_avg_length_minutes": 90,
+        "weight": 3.4,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "civilization"
+        ],
+        "description": "Players lead competing factions in an alternate 1920s Europa, building economic engines and mechs to expand their territory.",
+        "bgg_id": 169786,
+        "bgg_rank": 26,
+        "bgg_rating": 7.94057
+    },
+    {
+        "id": "31",
+        "name": "Brass: Birmingham",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 60,
+        "weight": 3.9,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players build canals and railways, developing industries through the Industrial Revolution in Birmingham to build the most prosperous economic engine.",
+        "bgg_id": 224517,
+        "bgg_rank": 1,
+        "bgg_rating": 8.39091
+    },
+    {
+        "id": "32",
+        "name": "One Night Ultimate Werewolf",
+        "min_players": 3,
+        "max_players": 10,
+        "min_avg_length_minutes": 10,
+        "weight": 1.3,
+        "ideal_players": [
+            6,
+            8
+        ],
+        "genres": [
+            "party",
+            "deduction",
+            "bluffing"
+        ],
+        "description": "A fast social deduction party game where players secretly take roles as werewolves or villagers and debate to find the werewolves in a single night.",
+        "bgg_id": 147949,
+        "bgg_rank": 687,
+        "bgg_rating": 6.8525
+    },
+    {
+        "id": "33",
+        "name": "Patchwork",
+        "min_players": 2,
+        "max_players": 2,
+        "min_avg_length_minutes": 15,
+        "weight": 1.7,
+        "ideal_players": [
+            2
+        ],
+        "genres": [
+            "puzzle",
+            "strategy"
+        ],
+        "description": "A two-player tile-laying game where players compete to fill their quilt board with fabric pieces while managing a shared time/button-money resource.",
+        "bgg_id": 163412,
+        "bgg_rank": 148,
+        "bgg_rating": 7.47099
+    },
+    {
+        "id": "34",
+        "name": "Ark Nova",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 90,
+        "weight": 3.7,
+        "ideal_players": [
+            1,
+            2
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players plan and design a modern zoo, balancing conservation projects and animal enclosures to build a scientifically-minded attraction.",
+        "bgg_id": 342942,
+        "bgg_rank": 2,
+        "bgg_rating": 8.35325
+    },
+    {
+        "id": "35",
+        "name": "Pandemic Legacy: Season 1",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 60,
+        "weight": 2.83,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "cooperative",
+            "strategy"
+        ],
+        "description": "A campaign version of Pandemic where players' choices permanently alter the game across a 12-month narrative campaign to save the world.",
+        "bgg_id": 161936,
+        "bgg_rank": 3,
+        "bgg_rating": 8.34423
+    },
+    {
+        "id": "36",
+        "name": "Gloomhaven",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 120,
+        "weight": 3.9,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "cooperative",
+            "adventure",
+            "strategy"
+        ],
+        "description": "A cooperative dungeon-crawling campaign game with tactical combat, evolving characters, and a persistent branching story.",
+        "bgg_id": 174430,
+        "bgg_rank": 4,
+        "bgg_rating": 8.29142
+    },
+    {
+        "id": "37",
+        "name": "Dune: Imperium – Uprising",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 60,
+        "weight": 3.3,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "card"
+        ],
+        "description": "A deck-building and worker-placement game where players vie for control of the desert planet Arrakis, with new intrigue and combat options.",
+        "bgg_id": 397598,
+        "bgg_rank": 5,
+        "bgg_rating": 8.25548
+    },
+    {
+        "id": "38",
+        "name": "Dune: Imperium",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 60,
+        "weight": 3.14,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "card"
+        ],
+        "description": "Players combine deck-building and worker placement to gather resources, forge alliances, and battle for control of the desert planet Arrakis.",
+        "bgg_id": 316554,
+        "bgg_rank": 6,
+        "bgg_rating": 8.21897
+    },
+    {
+        "id": "39",
+        "name": "Twilight Imperium: Fourth Edition",
+        "min_players": 3,
+        "max_players": 6,
+        "min_avg_length_minutes": 240,
+        "weight": 4.31,
+        "ideal_players": [
+            4,
+            6
+        ],
+        "genres": [
+            "strategy",
+            "civilization",
+            "adventure"
+        ],
+        "description": "An epic space opera game where players lead a galactic civilization through diplomacy, trade, and warfare to become the dominant power.",
+        "bgg_id": 233078,
+        "bgg_rank": 7,
+        "bgg_rating": 8.21742
+    },
+    {
+        "id": "40",
+        "name": "War of the Ring: Second Edition",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 120,
+        "weight": 3.87,
+        "ideal_players": [
+            2
+        ],
+        "genres": [
+            "strategy",
+            "adventure"
+        ],
+        "description": "A two-sided war game recreating The Lord of the Rings, pitting the Free Peoples racing to destroy the Ring against the Shadow's armies.",
+        "bgg_id": 115746,
+        "bgg_rank": 8,
+        "bgg_rating": 8.19989
+    },
+    {
+        "id": "41",
+        "name": "Star Wars: Rebellion",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 180,
+        "weight": 3.71,
+        "ideal_players": [
+            2,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "adventure",
+            "civilization"
+        ],
+        "description": "An asymmetric game where one side leads the Galactic Empire hunting for the hidden Rebel base and the other leads the Rebellion trying to spark a galaxy-wide uprising.",
+        "bgg_id": 187645,
+        "bgg_rank": 10,
+        "bgg_rating": 8.16854
+    },
+    {
+        "id": "42",
+        "name": "Gaia Project",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 60,
+        "weight": 4.36,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players guide one of fourteen alien factions to terraform planets and expand a galactic empire through a deep technology tree.",
+        "bgg_id": 220308,
+        "bgg_rank": 13,
+        "bgg_rating": 8.08442
+    },
+    {
+        "id": "43",
+        "name": "Twilight Struggle",
+        "min_players": 2,
+        "max_players": 2,
+        "min_avg_length_minutes": 120,
+        "weight": 3.47,
+        "ideal_players": [
+            2
+        ],
+        "genres": [
+            "strategy",
+            "card"
+        ],
+        "description": "A two-player card-driven game recreating the Cold War, as the US and USSR vie for global influence through the second half of the 20th century.",
+        "bgg_id": 12333,
+        "bgg_rank": 16,
+        "bgg_rating": 8.03689
+    },
+    {
+        "id": "44",
+        "name": "The Castles of Burgundy",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 30,
+        "weight": 2.91,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "dice"
+        ],
+        "description": "Players roll dice to acquire and place hexagonal tiles, building up their medieval estate in the Burgundy region for points.",
+        "bgg_id": 84876,
+        "bgg_rank": 17,
+        "bgg_rating": 8.03312
+    },
+    {
+        "id": "45",
+        "name": "Through the Ages: A New Story of Civilization",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 120,
+        "weight": 4.36,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "civilization",
+            "economy-building"
+        ],
+        "description": "A deep civilization-building game where players guide a nation across history, balancing culture, military, and technology.",
+        "bgg_id": 182028,
+        "bgg_rank": 18,
+        "bgg_rating": 8.00737
+    },
+    {
+        "id": "46",
+        "name": "Great Western Trail",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 75,
+        "weight": 3.65,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players drive cattle herds along the trail from Texas to Kansas, building up their herd and railroad connections along the way.",
+        "bgg_id": 193738,
+        "bgg_rank": 21,
+        "bgg_rating": 7.96882
+    },
+    {
+        "id": "47",
+        "name": "7 Wonders Duel",
+        "min_players": 2,
+        "max_players": 2,
+        "min_avg_length_minutes": 30,
+        "weight": 2.23,
+        "ideal_players": [
+            2
+        ],
+        "genres": [
+            "strategy",
+            "civilization",
+            "card"
+        ],
+        "description": "A streamlined two-player version of 7 Wonders where players draft cards to build military, science, and civilian structures across three ages.",
+        "bgg_id": 173346,
+        "bgg_rank": 24,
+        "bgg_rating": 7.95006
+    },
+    {
+        "id": "48",
+        "name": "A Feast for Odin",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 90,
+        "weight": 3.75,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Vikings gather resources and go on voyages and raids to fill their long house's board with goods, trying to avoid empty, penalized spaces.",
+        "bgg_id": 177736,
+        "bgg_rank": 27,
+        "bgg_rating": 7.93938
+    },
+    {
+        "id": "49",
+        "name": "Concordia",
+        "min_players": 2,
+        "max_players": 5,
+        "min_avg_length_minutes": 60,
+        "weight": 3.15,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players send trading colonists across the ancient Mediterranean, using role cards to build a growing trade network for the most prosperous empire.",
+        "bgg_id": 124361,
+        "bgg_rank": 29,
+        "bgg_rating": 7.92312
+    },
+    {
+        "id": "50",
+        "name": "Lost Ruins of Arnak",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 30,
+        "weight": 2.92,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "adventure"
+        ],
+        "description": "Players explore a mysterious island, managing resources and deck-building to uncover ancient temples and artifacts.",
+        "bgg_id": 312484,
+        "bgg_rank": 30,
+        "bgg_rating": 7.91712
+    },
+    {
+        "id": "51",
+        "name": "Terra Mystica",
+        "min_players": 2,
+        "max_players": 5,
+        "min_avg_length_minutes": 60,
+        "weight": 3.99,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players guide one of fourteen unique factions to terraform terrain, build structures, and expand their influence across a shared board.",
+        "bgg_id": 120677,
+        "bgg_rank": 36,
+        "bgg_rating": 7.85641
+    },
+    {
+        "id": "52",
+        "name": "Everdell",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 40,
+        "weight": 2.68,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "family"
+        ],
+        "description": "Players build a woodland city of critters and creatures across four seasons, playing cards to construct buildings and recruit unique characters.",
+        "bgg_id": 199792,
+        "bgg_rank": 46,
+        "bgg_rating": 7.80131
+    },
+    {
+        "id": "53",
+        "name": "Puerto Rico",
+        "min_players": 2,
+        "max_players": 5,
+        "min_avg_length_minutes": 90,
+        "weight": 3.29,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players manage plantations and production in colonial Puerto Rico, choosing roles each round to grow crops, ship goods, and build their colony.",
+        "bgg_id": 3076,
+        "bgg_rank": 57,
+        "bgg_rating": 7.75106
+    },
+    {
+        "id": "54",
+        "name": "Cascadia",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 30,
+        "weight": 1.85,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "puzzle",
+            "family"
+        ],
+        "description": "Players tile-lay habitats and place wildlife tokens to build a beautiful, balanced Pacific Northwest landscape that satisfies each animal's scoring pattern.",
+        "bgg_id": 295947,
+        "bgg_rank": 60,
+        "bgg_rating": 7.73214
+    },
+    {
+        "id": "55",
+        "name": "Agricola",
+        "min_players": 1,
+        "max_players": 4,
+        "min_avg_length_minutes": 30,
+        "weight": 3.64,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players manage a small farm, gathering resources, expanding their house, and feeding their family across a series of harvests.",
+        "bgg_id": 31260,
+        "bgg_rank": 65,
+        "bgg_rating": 7.72152
+    },
+    {
+        "id": "56",
+        "name": "Blood Rage",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 60,
+        "weight": 2.79,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "bluffing",
+            "adventure"
+        ],
+        "description": "Players lead Viking clans in the age of Ragnarok, battling for glory through combat, questing, and pillaging before the world ends.",
+        "bgg_id": 170216,
+        "bgg_rank": 67,
+        "bgg_rating": 7.71811
+    },
+    {
+        "id": "57",
+        "name": "Power Grid",
+        "min_players": 2,
+        "max_players": 6,
+        "min_avg_length_minutes": 120,
+        "weight": 3.28,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players bid on power plants and manage resources to build and expand an electric network, supplying the most cities at the lowest cost.",
+        "bgg_id": 2651,
+        "bgg_rank": 76,
+        "bgg_rating": 7.68022
+    },
+    {
+        "id": "58",
+        "name": "Le Havre",
+        "min_players": 1,
+        "max_players": 5,
+        "min_avg_length_minutes": 30,
+        "weight": 3.75,
+        "ideal_players": [
+            2,
+            3
+        ],
+        "genres": [
+            "strategy",
+            "economy-building"
+        ],
+        "description": "Players manage a growing harbor town, gathering and processing raw resources into goods to build up buildings and ships.",
+        "bgg_id": 35677,
+        "bgg_rank": 83,
+        "bgg_rating": 7.65516
+    },
+    {
+        "id": "59",
+        "name": "Race for the Galaxy",
+        "min_players": 2,
+        "max_players": 4,
+        "min_avg_length_minutes": 30,
+        "weight": 3.06,
+        "ideal_players": [
+            2,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "economy-building",
+            "card"
+        ],
+        "description": "Players play cards to develop a tableau of planets and technologies, building an efficient galactic empire through drafted card roles.",
+        "bgg_id": 28143,
+        "bgg_rank": 94,
+        "bgg_rating": 7.61516
+    },
+    {
+        "id": "60",
+        "name": "Small World",
+        "min_players": 2,
+        "max_players": 5,
+        "min_avg_length_minutes": 40,
+        "weight": 2.28,
+        "ideal_players": [
+            3,
+            4
+        ],
+        "genres": [
+            "strategy",
+            "family"
+        ],
+        "description": "Players guide waves of fantasy races to conquer territory in a world too small for them all, deciding when to abandon a fading civilization for a fresh one.",
+        "bgg_id": 40692,
+        "bgg_rank": 410,
+        "bgg_rating": 7.08302
+    },
+    {
+        "id": "61",
+        "name": "King of Tokyo",
+        "min_players": 2,
+        "max_players": 6,
+        "min_avg_length_minutes": 30,
+        "weight": 1.75,
+        "ideal_players": [
+            4,
+            5
+        ],
+        "genres": [
+            "dice",
+            "family",
+            "party"
+        ],
+        "description": "Players control giant monsters battling for control of Tokyo, rolling dice to attack rivals, heal, and gather energy for powerful upgrades.",
+        "bgg_id": 70323,
+        "bgg_rank": 502,
+        "bgg_rating": 7.00638
+    },
+    {
+        "id": "62",
+        "name": "Secret Hitler",
+        "min_players": 5,
+        "max_players": 10,
+        "min_avg_length_minutes": 45,
+        "weight": 1.9,
+        "ideal_players": [
+            7,
+            8
+        ],
+        "genres": [
+            "deduction",
+            "bluffing",
+            "party"
+        ],
+        "description": "A social deduction game set in 1930s Germany where liberals and fascists secretly vie for control of the government through policy enactment.",
+        "bgg_id": 188834,
+        "bgg_rank": 269,
+        "bgg_rating": 7.24747
     }
 ]
