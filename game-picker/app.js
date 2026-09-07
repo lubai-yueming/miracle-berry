@@ -1,8 +1,39 @@
 const playerSection = document.getElementById('player-section');
 const playerForm = document.getElementById('player-form');
 const playerCountInput = document.getElementById('player-count');
+const playerCountValueEl = document.getElementById('player-count-value');
 const maxTimeInput = document.getElementById('max-time');
+const maxTimeValueEl = document.getElementById('max-time-value');
 const playerStatusEl = document.getElementById('player-status');
+
+// The player-count slider's top value is just the largest headcount we
+// bucket individually - unlike the time slider, this can't mean "no limit"
+// (every player still needs their own personality-quiz screen and a
+// concrete number feeds the count-fit scoring), so it's treated as a
+// literal 20, labeled "20+" only as a hint that bigger groups get capped.
+const PLAYER_COUNT_SLIDER_CAP = 20;
+
+// The slider's top value stands in for "no limit" rather than a literal
+// 240-minute cap, so marathon-length games stay reachable without needing
+// an impractically long slider.
+const MAX_TIME_SLIDER_CAP = 240;
+
+function formatPlayerCountLabel(value) {
+    const suffix = value >= PLAYER_COUNT_SLIDER_CAP ? '+' : '';
+    return `${value}${suffix} player${value === 1 ? '' : 's'}`;
+}
+
+function formatMaxTimeLabel(value) {
+    return value >= MAX_TIME_SLIDER_CAP ? `${MAX_TIME_SLIDER_CAP}+ min (no limit)` : `${value} min`;
+}
+
+playerCountInput.addEventListener('input', () => {
+    playerCountValueEl.textContent = formatPlayerCountLabel(parseInt(playerCountInput.value, 10));
+});
+
+maxTimeInput.addEventListener('input', () => {
+    maxTimeValueEl.textContent = formatMaxTimeLabel(parseInt(maxTimeInput.value, 10));
+});
 
 const quizSection = document.getElementById('quiz-section');
 const quizHeadingEl = document.getElementById('quiz-heading');
@@ -15,6 +46,7 @@ const quizSubmitBtn = document.getElementById('quiz-submit-btn');
 const resultsSection = document.getElementById('results-section');
 const resultsContentEl = document.getElementById('results-content');
 const startOverBtn = document.getElementById('start-over-btn');
+const gameNamesDatalist = document.getElementById('game-names-list');
 
 // The 5 dimensions shared by every person vector and every game vector.
 const TRAITS = ['openness', 'conscientiousness', 'extraversion', 'agreeableness', 'neuroticism'];
@@ -22,6 +54,24 @@ const TRAITS = ['openness', 'conscientiousness', 'extraversion', 'agreeableness'
 // Amplifies negative individual scores so one player strongly disliking a
 // game outweighs a plain sum/average across the rest of the group.
 const MISERY_PENALTY_MULTIPLIER = 3;
+
+// A named favorite/least-favorite game is treated as extra evidence about
+// that player's OCEAN traits - the same category of signal as a TIPI answer
+// - by blending the named game's own vector into (favorite) or away from
+// (least-favorite) their personality vector before scoring. This is what
+// makes the pull generalize to *similar* games, not just the one named.
+// Starting values, not calibrated - a full 1.0 would let a single game
+// pick dominate 10 TIPI answers entirely, so both are kept as a partial nudge.
+const FAVORITE_GAME_BLEND_WEIGHT = 0.5;
+const LEAST_FAVORITE_GAME_BLEND_WEIGHT = 0.5;
+
+// On top of the vector blend above, a named favorite also gets a direct
+// score bonus per player who named it (see getMatches) so it - specifically,
+// not just games shaped like it - reliably surfaces rather than only
+// nudging similar titles. A named least-favorite is removed from the
+// candidate pool entirely for this session instead of merely penalized, so
+// it's never re-suggested regardless of how well it'd otherwise score.
+const FAVORITE_GAME_SCORE_BONUS_PER_PLAYER = 15;
 
 // Maps each game.json genre tag to an OCEAN contribution.
 // Sources, per tag, in order of confidence:
@@ -76,9 +126,29 @@ const COUNT_FIT_DECAY_RATE = 0.15;
 // ranking) so this bar is comparable across different group sizes - a bigger
 // group's raw sum grows just from having more terms, which would otherwise
 // make it easier to clear a fixed threshold regardless of actual fit.
-// Starting value, not derived from data yet - worth recalibrating once
-// there's real usage data to check it against.
-const MIN_RECOMMENDATION_AVG_SCORE = 3;
+// Used as a floor (see MIN_RECOMMENDATION_CEILING_FRACTION below) so a
+// barely-positive ceiling can't let near-zero scores "qualify".
+const MIN_RECOMMENDATION_AVG_SCORE = 6;
+
+// The real qualifying bar is the larger of MIN_RECOMMENDATION_AVG_SCORE and
+// this fraction of computeCeilingScore()'s avgScore for the current group.
+// A single fixed absolute bar doesn't scale: once the library grew from
+// ~84 to ~10,000 games, MIN_RECOMMENDATION_AVG_SCORE=3 alone let 1,300-6,700
+// games "qualify" for any group with even a mild personality lean (measured
+// directly against the real 9,935-game library) - not a meaningful
+// recommendation anymore. A ceiling-relative bar self-calibrates instead:
+// scaling a group's lean up or down scales its ceiling proportionally, so
+// "reach 35% of your group's own best-case score" empirically produced a
+// stable ~38-53 qualifying games across mild/moderate/strong/single-trait
+// test profiles against the real library, rather than swinging by 100x.
+const MIN_RECOMMENDATION_CEILING_FRACTION = 0.35;
+
+// Hard safety cap on how many qualifying games are ever returned/rendered,
+// independent of the threshold above - protects against a pathological case
+// (or a future, much larger library) still producing an unrenderable list.
+// getMatches reports the true qualifying count separately so the UI can say
+// "showing top 60 of 140" rather than silently truncating.
+const MAX_RENDERED_MATCHES = 60;
 
 // Human-readable framing for each trait's high/low pole, used to describe a
 // group's aggregate personality profile in plain language.
@@ -120,15 +190,75 @@ let maxTime = 0;
 let currentMatches = [];
 let currentPlayerIndex = 0;
 let personVectors = [];
+// Parallel to personVectors - the game object each player named as their
+// favorite/least-favorite this session, or null if they skipped it/typed
+// something that didn't match a game in the library.
+let favoriteGamePicks = [];
+let leastFavoriteGamePicks = [];
 let lastMatchResult = { qualifies: true, matches: [] };
 
 async function loadGames() {
     try {
         const response = await fetch('games.json');
         games = await response.json();
+        populateGameNamesDatalist();
     } catch (err) {
         setStatus(playerStatusEl, 'Could not load games.json. If you opened this file directly (file://), please serve it via a local server or view it through GitHub Pages instead.', 'error');
     }
+}
+
+// Escapes text for safe use inside an HTML attribute value (e.g. <option
+// value="...">) - narrower than full HTML-escaping, but that's all a
+// datalist option's value attribute needs.
+function escapeHtmlAttr(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+// Powers the "favorite/least-favorite game" autocomplete inputs in the quiz
+// - built once from the full library right after it loads, rather than
+// rebuilt on every per-player quiz render.
+function populateGameNamesDatalist() {
+    if (!gameNamesDatalist) return;
+    gameNamesDatalist.innerHTML = games
+        .map((game) => `<option value="${escapeHtmlAttr(game.name)}"></option>`)
+        .join('');
+}
+
+// Resolves free-typed text against the loaded game library by exact,
+// case-insensitive name match (the datalist encourages picking a real name,
+// but doesn't enforce it) - returns null for blank/unmatched input, since
+// the favorite/least-favorite questions are optional.
+function findGameByName(name) {
+    if (!name) return null;
+    const trimmed = name.trim().toLowerCase();
+    if (!trimmed) return null;
+    return games.find((game) => game.name && game.name.toLowerCase() === trimmed) || null;
+}
+
+// Treats a named favorite/least-favorite game as extra evidence about a
+// player's OCEAN traits, blending its own game-vector into (or away from)
+// their personality vector before it ever reaches scoring - see the
+// FAVORITE_GAME_BLEND_WEIGHT comment above for why this generalizes to
+// similar games rather than just the one named.
+function applyGamePreferenceBlend(personVector, favoriteGame, leastFavoriteGame) {
+    const vector = { ...personVector };
+    if (favoriteGame) {
+        const favoriteVector = computeGameVector(favoriteGame);
+        TRAITS.forEach((trait) => {
+            vector[trait] += FAVORITE_GAME_BLEND_WEIGHT * favoriteVector[trait];
+        });
+    }
+    if (leastFavoriteGame) {
+        const leastFavoriteVector = computeGameVector(leastFavoriteGame);
+        TRAITS.forEach((trait) => {
+            vector[trait] -= LEAST_FAVORITE_GAME_BLEND_WEIGHT * leastFavoriteVector[trait];
+        });
+    }
+    return vector;
 }
 
 async function loadTipi() {
@@ -525,6 +655,53 @@ function scoreGames(playerVectors, pool) {
         .sort((a, b) => b.score - a.score);
 }
 
+/**
+ * Constructs a hypothetical "perfectly-tailored" game for this group: for
+ * each genre tag, include it only if doing so helps the group's *combined*
+ * (pre-misery) score - i.e. dot(groupVector, tagVector) > 0. This is exactly
+ * optimal for maximizing the linear (pre-misery-penalty) sum across players,
+ * since each tag's contribution is additive and independent of every other
+ * tag. Weight is pushed to whichever extreme (1.0 or 5.0) the group's
+ * Openness/Conscientiousness lean favors. ideal_players is set to the
+ * group's actual size, so count-fit is neutral (multiplier of exactly 1) -
+ * this is a ceiling on personality fit specifically, not on being lucky
+ * about headcount. Not a real game - a reference point so a real
+ * recommendation's score can be read as "N% of the best this scoring model
+ * could ever produce for a group like yours", not a bare, context-free number.
+ */
+function computeCeilingGame(playerVectors, n) {
+    const groupVector = zeroVector();
+    playerVectors.forEach((vector) => {
+        TRAITS.forEach((trait) => { groupVector[trait] += vector[trait]; });
+    });
+
+    const genres = Object.keys(OCEAN_WEIGHTS)
+        .filter((key) => dot(groupVector, weightVector(OCEAN_WEIGHTS[key])) > 0)
+        .map((key) => key.slice('genres:'.length));
+
+    const weightSlope = (groupVector.openness * OPENNESS_PER_WEIGHT_POINT)
+        + (groupVector.conscientiousness * CONSCIENTIOUSNESS_PER_WEIGHT_POINT);
+    const weight = weightSlope >= 0 ? 5 : 1;
+
+    return {
+        id: '__ceiling__',
+        name: 'a perfectly-tailored game',
+        genres,
+        weight,
+        ideal_players: [n],
+    };
+}
+
+/**
+ * Runs the ceiling game through the real scoreGames() pipeline (misery
+ * penalty included) so its score is directly comparable to real matches.
+ */
+function computeCeilingScore(playerVectors) {
+    const n = playerVectors.length || 1;
+    const ceilingGame = computeCeilingGame(playerVectors, n);
+    return scoreGames(playerVectors, [ceilingGame])[0];
+}
+
 function formatIdealPlayers(game) {
     if (!game || !game.ideal_players || game.ideal_players.length === 0) {
         return 'a different number of players';
@@ -536,31 +713,70 @@ function formatIdealPlayers(game) {
 
 /**
  * Splits scored games into genuine recommendations (average per-player score
- * at/above MIN_RECOMMENDATION_AVG_SCORE) and, when none clear that bar, a
- * short "closest we found" fallback list instead - each annotated with why
- * it fell short, so a game whose *personality* fit was strong but got
- * dragged below threshold purely by a bad player-count fit reads differently
- * from one that was just never a strong match to begin with.
+ * at/above the ceiling-relative bar - see MIN_RECOMMENDATION_CEILING_FRACTION)
+ * and, when none clear that bar, a short "closest we found" fallback list
+ * instead - each annotated with why it fell short, so a game whose
+ * *personality* fit was strong but got dragged below threshold purely by a
+ * bad player-count fit reads differently from one that was just never a
+ * strong match to begin with.
  * @param {Array<Object>} playerVectors - one centered OCEAN vector per player.
  * @param {Array<Object>} pool - subset of games to consider.
- * @param {number} topN - max number of results to return either way.
+ * @param {number} fallbackCount - max number of results to show only in the
+ *   no-qualifying-match fallback case.
+ * @param {Array<Object|null>} favoritePicks - one game-or-null per player,
+ *   from the optional "favorite game" question.
+ * @param {Array<Object|null>} leastFavoritePicks - same shape, for the
+ *   optional "least favorite game" question.
  */
-function getMatches(playerVectors, pool, topN = 3) {
-    const allScored = scoreGames(playerVectors, pool);
-    const qualifying = allScored.filter((game) => game.avgScore >= MIN_RECOMMENDATION_AVG_SCORE);
+function getMatches(playerVectors, pool, fallbackCount = 5, favoritePicks = [], leastFavoritePicks = []) {
+    // A named least-favorite is removed from the pool entirely - we never
+    // re-suggest it this session, regardless of how well it'd otherwise
+    // score (its *personality* pull already happened via the vector blend
+    // in applyGamePreferenceBlend, which still affects similar games).
+    const leastFavoriteIds = new Set(
+        leastFavoritePicks.filter(Boolean).map((game) => game.id)
+    );
+    const eligiblePool = pool.filter((game) => !leastFavoriteIds.has(game.id));
+
+    // A named favorite gets a direct score bonus per player who named it,
+    // so it - specifically, not just games shaped like it - reliably
+    // surfaces. Applied post-scoring so it never touches personalityAvgScore
+    // (the fallback "great personality fit, wrong headcount" reasoning below
+    // should stay about personality fit alone).
+    const favoriteMentionCounts = {};
+    favoritePicks.filter(Boolean).forEach((game) => {
+        favoriteMentionCounts[game.id] = (favoriteMentionCounts[game.id] || 0) + 1;
+    });
+
+    const allScored = scoreGames(playerVectors, eligiblePool)
+        .map((game) => {
+            const mentions = favoriteMentionCounts[game.id] || 0;
+            if (mentions === 0) return game;
+            const n = playerVectors.length || 1;
+            const boostedScore = game.score + mentions * FAVORITE_GAME_SCORE_BONUS_PER_PLAYER;
+            return { ...game, score: boostedScore, avgScore: boostedScore / n };
+        })
+        .sort((a, b) => b.score - a.score);
+    const ceiling = computeCeilingScore(playerVectors);
+    const qualifyingBar = Math.max(MIN_RECOMMENDATION_AVG_SCORE, MIN_RECOMMENDATION_CEILING_FRACTION * ceiling.avgScore);
+    const qualifying = allScored.filter((game) => game.avgScore >= qualifyingBar);
 
     if (qualifying.length > 0) {
-        return { qualifies: true, matches: qualifying.slice(0, topN) };
+        return {
+            qualifies: true,
+            matches: qualifying.slice(0, MAX_RENDERED_MATCHES),
+            totalQualifying: qualifying.length,
+        };
     }
 
-    const closest = allScored.slice(0, topN).map((game) => {
+    const closest = allScored.slice(0, fallbackCount).map((game) => {
         const sourceGame = pool.find((g) => g.id === game.id);
-        const reason = game.personalityAvgScore >= MIN_RECOMMENDATION_AVG_SCORE
+        const reason = game.personalityAvgScore >= qualifyingBar
             ? `Your group's personalities are a great match for this one - it's just not the right headcount (best with ${formatIdealPlayers(sourceGame)}).`
             : `Closest option we found, though it's not a strong personality fit for your group either.`;
         return { ...game, reason };
     });
-    return { qualifies: false, matches: closest };
+    return { qualifies: false, matches: closest, totalQualifying: 0 };
 }
 
 function setStatus(el, text, className) {
@@ -587,18 +803,36 @@ function renderPersonalityQuiz() {
                 <input type="range" class="tipi-slider unanswered" min="1" max="7" step="1" value="4" data-item-id="${item.id}" data-touched="false">
                 <span class="tipi-slider-endlabel">Agree<br>strongly</span>
             </div>
-            <div class="tipi-slider-value unanswered" id="tipi-value-${item.id}">Not answered yet - drag the slider</div>
+            <div class="tipi-slider-value unanswered" id="tipi-value-${item.id}">Not answered yet - click or drag the slider</div>
         </div>
-    `).join('');
+    `).join('') + `
+        <div class="quiz-card game-pref-card">
+            <p class="quiz-card-text">Optional: what's your favorite board game?</p>
+            <input type="text" class="game-pref-input" id="favorite-game-input" list="game-names-list" placeholder="Start typing a game name..." autocomplete="off">
+            <p class="game-pref-hint">Helps us find more games like it for you.</p>
+        </div>
+        <div class="quiz-card game-pref-card">
+            <p class="quiz-card-text">Optional: what's your least favorite board game?</p>
+            <input type="text" class="game-pref-input" id="least-favorite-game-input" list="game-names-list" placeholder="Start typing a game name..." autocomplete="off">
+            <p class="game-pref-hint">We'll steer away from it and games like it.</p>
+        </div>
+    `;
 
     quizQuestionsEl.querySelectorAll('.tipi-slider').forEach((slider) => {
-        slider.addEventListener('input', () => {
+        // A plain click on the thumb (no drag) doesn't change the value, so
+        // it never fires 'input' - but it should still count as "I meant to
+        // leave this at neutral", not force a drag just to register an
+        // answer. 'pointerdown' covers mouse/touch/pen clicks; 'input'
+        // still handles real drags and keyboard (arrow key) changes.
+        const markAnswered = () => {
             slider.dataset.touched = 'true';
             slider.classList.remove('unanswered');
             const valueEl = document.getElementById(`tipi-value-${slider.dataset.itemId}`);
             valueEl.classList.remove('unanswered');
             valueEl.textContent = `${slider.value} - ${SLIDER_LABELS[slider.value]}`;
-        });
+        };
+        slider.addEventListener('input', markAnswered);
+        slider.addEventListener('pointerdown', markAnswered);
     });
 
     quizSubmitBtn.textContent = currentPlayerIndex + 1 === numPlayers ? 'See Our Matches' : 'Next Player →';
@@ -612,10 +846,6 @@ function handlePlayerSubmit(event) {
     currentMatches = games;
 
     const parsedCount = parseInt(playerCountInput.value, 10);
-    if (isNaN(parsedCount) || parsedCount < 1) {
-        setStatus(playerStatusEl, 'Please enter a valid number of players.', 'error');
-        return;
-    }
 
     currentMatches = currentMatches.filter(
         (game) => parsedCount >= game.min_players && parsedCount <= game.max_players
@@ -634,11 +864,8 @@ function handlePlayerSubmit(event) {
 
     numPlayers = parsedCount;
 
-    const parsedMaxTime = parseInt(maxTimeInput.value, 10);
-    if (isNaN(parsedMaxTime) || parsedMaxTime < 0) {
-        setStatus(playerStatusEl, 'Please enter a valid max time to play.', 'error');
-        return;
-    }
+    const sliderMaxTime = parseInt(maxTimeInput.value, 10);
+    const parsedMaxTime = sliderMaxTime >= MAX_TIME_SLIDER_CAP ? Infinity : sliderMaxTime;
 
     currentMatches = currentMatches.filter(
         (game) => parsedMaxTime >= game.min_avg_length_minutes
@@ -647,7 +874,7 @@ function handlePlayerSubmit(event) {
     if (currentMatches.length === 0) {
         setStatus(
             playerStatusEl,
-            `No game supports ${parsedCount} player(s) and ${parsedMaxTime} min average play time. Please enter again.`,
+            `No game supports ${parsedCount} player(s) and ${formatMaxTimeLabel(sliderMaxTime)} average play time. Please enter again.`,
             'error'
         );
         return;
@@ -658,6 +885,8 @@ function handlePlayerSubmit(event) {
     setStatus(playerStatusEl, '', '');
     currentPlayerIndex = 0;
     personVectors = [];
+    favoriteGamePicks = [];
+    leastFavoriteGamePicks = [];
     renderPersonalityQuiz();
 }
 
@@ -667,7 +896,7 @@ function handleQuizSubmit(event) {
     const sliders = Array.from(quizQuestionsEl.querySelectorAll('.tipi-slider'));
     const hasUntouched = sliders.some((slider) => slider.dataset.touched !== 'true');
     if (hasUntouched) {
-        setStatus(quizStatusEl, 'Please answer every statement by dragging its slider - even if your honest answer is neutral.', 'error');
+        setStatus(quizStatusEl, 'Please answer every statement by clicking or dragging its slider - even if your honest answer is neutral.', 'error');
         return;
     }
 
@@ -676,7 +905,13 @@ function handleQuizSubmit(event) {
         answers[slider.dataset.itemId] = parseInt(slider.value, 10);
     });
 
-    personVectors.push(computePersonVector(answers));
+    const favoriteGame = findGameByName(document.getElementById('favorite-game-input').value);
+    const leastFavoriteGame = findGameByName(document.getElementById('least-favorite-game-input').value);
+    favoriteGamePicks.push(favoriteGame);
+    leastFavoriteGamePicks.push(leastFavoriteGame);
+
+    const rawVector = computePersonVector(answers);
+    personVectors.push(applyGamePreferenceBlend(rawVector, favoriteGame, leastFavoriteGame));
 
     if (currentPlayerIndex + 1 < numPlayers) {
         currentPlayerIndex += 1;
@@ -684,12 +919,31 @@ function handleQuizSubmit(event) {
         return;
     }
 
-    lastMatchResult = getMatches(personVectors, currentMatches, 3);
+    lastMatchResult = getMatches(personVectors, currentMatches, 5, favoriteGamePicks, leastFavoriteGamePicks);
     renderResults();
 }
 
+/**
+ * Renders the "how good could this get, in theory" reference line - see
+ * computeCeilingScore(). topScore is whatever the best real option actually
+ * reached (qualifying or fallback), so this always reads as a comparison,
+ * not an isolated abstract number.
+ */
+function renderCeilingHtml(playerVectors, topScore) {
+    const ceiling = computeCeilingScore(playerVectors);
+    if (ceiling.score <= 0) {
+        return `<p class="ceiling-note">Your group's preferences don't lean strongly in any one direction, so even a perfectly-tailored game wouldn't score dramatically higher than what you see below.</p>`;
+    }
+    // Clamped at 100%: the ceiling is a very good but not mathematically
+    // exact upper bound (it optimizes the pre-misery-penalty linear sum,
+    // which is usually but not always identical to the true misery-penalized
+    // optimum), so a real game could in rare cases edge past it slightly.
+    const pctOfCeiling = Math.min(100, Math.round((100 * topScore) / ceiling.score));
+    return `<p class="ceiling-note">The best possible score for a group like yours - if a perfectly-tailored game existed - is about ${ceiling.score.toFixed(1)} (avg ${ceiling.avgScore.toFixed(1)}/player). Your best real option reaches ${pctOfCeiling}% of that ceiling.</p>`;
+}
+
 function renderResults() {
-    const { qualifies, matches } = lastMatchResult;
+    const { qualifies, matches, totalQualifying } = lastMatchResult;
     const groupProfileHtml = `<p class="group-profile">${describeGroupProfile(personVectors)}</p>`;
     const traitBreakdownHtml = renderTraitBreakdownHtml(personVectors);
 
@@ -698,6 +952,8 @@ function renderResults() {
         showSection(resultsSection);
         return;
     }
+
+    const ceilingHtml = renderCeilingHtml(personVectors, matches[0].score);
 
     if (!qualifies) {
         const listItems = matches.map((match) => {
@@ -717,6 +973,7 @@ function renderResults() {
         resultsContentEl.innerHTML = `
             ${groupProfileHtml}
             ${traitBreakdownHtml}
+            ${ceilingHtml}
             <p style="text-align:center; font-size:1.2rem;">We couldn't find a strong match for your group - here's the closest we've got:</p>
             <p class="no-match-reason">${describeNoMatchReason(personVectors)}</p>
             <ul id="matches-list" class="close-matches">${listItems}</ul>
@@ -748,10 +1005,18 @@ function renderResults() {
         ? '<button type="button" id="shuffle-top-btn">🎲 Shuffle Top Pick</button>'
         : '';
 
+    const matchCountNote = totalQualifying > matches.length
+        ? `${totalQualifying} games cleared our recommendation bar for your group - showing the top ${matches.length}, best first.`
+        : matches.length === 1
+            ? '1 game cleared our recommendation bar for your group.'
+            : `${matches.length} games cleared our recommendation bar for your group, best first.`;
+
     resultsContentEl.innerHTML = `
         ${groupProfileHtml}
         ${traitBreakdownHtml}
+        ${ceilingHtml}
         <p style="text-align:center; font-size:1.2rem;">Here's what your group should play:</p>
+        <p style="text-align:center; font-size:0.9rem; color:#555;">${matchCountNote}</p>
         <ul id="matches-list">${listItems}</ul>
         <div style="text-align:center;">${shuffleBtn}</div>
     `;
@@ -766,6 +1031,8 @@ function renderResults() {
 
 function resetToPlayerStep() {
     playerForm.reset();
+    playerCountValueEl.textContent = formatPlayerCountLabel(parseInt(playerCountInput.value, 10));
+    maxTimeValueEl.textContent = formatMaxTimeLabel(parseInt(maxTimeInput.value, 10));
     setStatus(playerStatusEl, '', '');
     setStatus(quizStatusEl, '', '');
     numPlayers = 0;
@@ -773,6 +1040,8 @@ function resetToPlayerStep() {
     currentMatches = [];
     currentPlayerIndex = 0;
     personVectors = [];
+    favoriteGamePicks = [];
+    leastFavoriteGamePicks = [];
     lastMatchResult = { qualifies: true, matches: [] };
     showSection(playerSection);
 }
@@ -783,6 +1052,8 @@ quizBackBtn.addEventListener('click', () => {
     if (currentPlayerIndex > 0) {
         currentPlayerIndex -= 1;
         personVectors.pop();
+        favoriteGamePicks.pop();
+        leastFavoriteGamePicks.pop();
         renderPersonalityQuiz();
     } else {
         showSection(playerSection);
