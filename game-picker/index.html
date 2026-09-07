@@ -70,6 +70,24 @@
             border-color: #1a7f37;
             box-shadow: 0 0 0 3px rgba(26, 127, 55, 0.15);
         }
+        .intro-slider-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .intro-card input[type="range"] {
+            flex: 1;
+            width: auto;
+            padding: 0;
+            accent-color: #1a7f37;
+        }
+        .intro-slider-value {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #1a7f37;
+        }
         #submit-button button {
             width: 100%;
             padding: 12px;
@@ -170,6 +188,22 @@
             font-style: italic;
             color: #999;
         }
+        .game-pref-card {
+            border-style: dashed;
+        }
+        .game-pref-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            font-size: 0.95rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .game-pref-hint {
+            margin: 4px 0 0;
+            font-size: 0.8rem;
+            color: #888;
+        }
         #quiz-actions {
             display: flex;
             justify-content: center;
@@ -264,6 +298,16 @@
             text-align: center;
             margin: 4px 0 16px;
         }
+        .ceiling-note {
+            background: #fbf8f0;
+            border: 1px solid #ecdfc0;
+            border-radius: 10px;
+            padding: 10px 16px;
+            margin: 0 0 16px;
+            font-size: 0.88rem;
+            text-align: center;
+            color: #5c4f2a;
+        }
         .trait-breakdown {
             background: #fff;
             border: 1px solid #e5e5e5;
@@ -356,11 +400,17 @@
         <form id="player-form">
             <div id="player-count-section" class="intro-card">
                 <label for="player-count">How many players do you have?</label>
-                <input type="number" id="player-count" min="1" step="1" placeholder="e.g. 3" required>
+                <div class="intro-slider-row">
+                    <input type="range" id="player-count" min="1" max="20" step="1" value="4">
+                </div>
+                <div class="intro-slider-value" id="player-count-value">4 players</div>
             </div>
             <div id="max-time-section" class="intro-card">
                 <label for="max-time">What is the maximum time you have?</label>
-                <input type="number" id="max-time" min="0" step="10" placeholder="e.g. 60" required>
+                <div class="intro-slider-row">
+                    <input type="range" id="max-time" min="0" max="240" step="10" value="60">
+                </div>
+                <div class="intro-slider-value" id="max-time-value">60 min</div>
             </div>
             <div id="submit-button">
                 <button type="submit">Submit</button>
@@ -373,6 +423,7 @@
         <h2 id="quiz-heading"></h2>
         <form id="quiz-form">
             <div id="quiz-questions"></div>
+            <datalist id="game-names-list"></datalist>
             <div id="quiz-actions">
                 <button type="button" id="quiz-back-btn">Back</button>
                 <button type="submit" id="quiz-submit-btn">See Our Matches</button>
