@@ -656,38 +656,70 @@ function scoreGames(playerVectors, pool) {
 }
 
 /**
- * Constructs a hypothetical "perfectly-tailored" game for this group: for
- * each genre tag, include it only if doing so helps the group's *combined*
- * (pre-misery) score - i.e. dot(groupVector, tagVector) > 0. This is exactly
- * optimal for maximizing the linear (pre-misery-penalty) sum across players,
- * since each tag's contribution is additive and independent of every other
- * tag. Weight is pushed to whichever extreme (1.0 or 5.0) the group's
- * Openness/Conscientiousness lean favors. ideal_players is set to the
- * group's actual size, so count-fit is neutral (multiplier of exactly 1) -
- * this is a ceiling on personality fit specifically, not on being lucky
- * about headcount. Not a real game - a reference point so a real
- * recommendation's score can be read as "N% of the best this scoring model
- * could ever produce for a group like yours", not a bare, context-free number.
+ * Finds the hypothetical game with the greatest possible score under the
+ * actual scoring model. The model allows any combination of known genre tags
+ * and any BGG weight from 1.0 through 5.0; it intentionally ignores whether
+ * such a combination exists in the real catalogue.
+ *
+ * This must optimize each player's misery-penalized score, not the group's
+ * raw dot product. A genre that is slightly positive for the group total can
+ * still be a net loss once one player's negative reaction is tripled. There
+ * are only 14 genre tags, so exhaustively testing every subset is small and
+ * gives an exact result. For a fixed subset, the score is piecewise linear in
+ * weight: its only possible maxima are at 1.0, 5.0, or where a player's raw
+ * score crosses zero. Testing those points makes the continuous weight search
+ * exact as well.
  */
 function computeCeilingGame(playerVectors, n) {
-    const groupVector = zeroVector();
-    playerVectors.forEach((vector) => {
-        TRAITS.forEach((trait) => { groupVector[trait] += vector[trait]; });
-    });
+    const genreOptions = Object.entries(OCEAN_WEIGHTS).map(([key, weights]) => ({
+        genre: key.slice('genres:'.length),
+        vector: weightVector(weights),
+    }));
+    let bestGame = null;
+    let bestScore = -Infinity;
 
-    const genres = Object.keys(OCEAN_WEIGHTS)
-        .filter((key) => dot(groupVector, weightVector(OCEAN_WEIGHTS[key])) > 0)
-        .map((key) => key.slice('genres:'.length));
+    for (let mask = 0; mask < (1 << genreOptions.length); mask += 1) {
+        let genreVector = zeroVector();
+        const genres = [];
+        genreOptions.forEach((option, index) => {
+            if (mask & (1 << index)) {
+                genres.push(option.genre);
+                genreVector = addVectors(genreVector, option.vector);
+            }
+        });
 
-    const weightSlope = (groupVector.openness * OPENNESS_PER_WEIGHT_POINT)
-        + (groupVector.conscientiousness * CONSCIENTIOUSNESS_PER_WEIGHT_POINT);
-    const weight = weightSlope >= 0 ? 5 : 1;
+        const candidateWeights = new Set([1, 5]);
+        playerVectors.forEach((personVector) => {
+            const weightSlope = (personVector.openness * OPENNESS_PER_WEIGHT_POINT)
+                + (personVector.conscientiousness * CONSCIENTIOUSNESS_PER_WEIGHT_POINT);
+            if (weightSlope === 0) return;
+            const zeroCrossingWeight = WEIGHT_MIDPOINT - dot(personVector, genreVector) / weightSlope;
+            if (zeroCrossingWeight >= 1 && zeroCrossingWeight <= 5) {
+                candidateWeights.add(zeroCrossingWeight);
+            }
+        });
+
+        candidateWeights.forEach((weight) => {
+            const weightDeviation = weight - WEIGHT_MIDPOINT;
+            const gameVector = addVectors(genreVector, weightVector({
+                o: weightDeviation * OPENNESS_PER_WEIGHT_POINT,
+                c: weightDeviation * CONSCIENTIOUSNESS_PER_WEIGHT_POINT,
+            }));
+            const score = playerVectors.reduce(
+                (sum, personVector) => sum + adjustedScore(dot(personVector, gameVector)),
+                0
+            );
+            if (score > bestScore) {
+                bestScore = score;
+                bestGame = { genres: [...genres], weight };
+            }
+        });
+    }
 
     return {
         id: '__ceiling__',
         name: 'a perfectly-tailored game',
-        genres,
-        weight,
+        ...bestGame,
         ideal_players: [n],
     };
 }
