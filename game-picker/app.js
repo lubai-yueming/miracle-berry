@@ -118,7 +118,7 @@ const CONSCIENTIOUSNESS_PER_WEIGHT_POINT = 0.5;
 // from its hard min/max_players cutoffs already used to filter candidates
 // (e.g. Codenames plays at 2, but is best at 6-8).
 const COUNT_FIT_MIN_MULTIPLIER = 0.4;
-const COUNT_FIT_DECAY_RATE = 0.15;
+const COUNT_FIT_DECAY_RATE = 0.3;
 
 // Minimum *average per-player* final score (misery-penalized, count-fit
 // applied) a game needs to count as a genuine recommendation, rather than
@@ -128,7 +128,7 @@ const COUNT_FIT_DECAY_RATE = 0.15;
 // make it easier to clear a fixed threshold regardless of actual fit.
 // Used as a floor (see MIN_RECOMMENDATION_CEILING_FRACTION below) so a
 // barely-positive ceiling can't let near-zero scores "qualify".
-const MIN_RECOMMENDATION_AVG_SCORE = 6;
+const MIN_RECOMMENDATION_AVG_SCORE = 10;
 
 // The real qualifying bar is the larger of MIN_RECOMMENDATION_AVG_SCORE and
 // this fraction of computeCeilingScore()'s avgScore for the current group.
@@ -148,7 +148,7 @@ const MIN_RECOMMENDATION_CEILING_FRACTION = 0.35;
 // (or a future, much larger library) still producing an unrenderable list.
 // getMatches reports the true qualifying count separately so the UI can say
 // "showing top 60 of 140" rather than silently truncating.
-const MAX_RENDERED_MATCHES = 60;
+const MAX_RENDERED_MATCHES = 30;
 
 // Human-readable framing for each trait's high/low pole, used to describe a
 // group's aggregate personality profile in plain language.
